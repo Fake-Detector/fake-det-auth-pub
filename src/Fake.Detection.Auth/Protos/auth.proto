@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+option csharp_namespace = "Fake.Detection.Auth";
+option java_package = "fake.detection.auth";
+
+import "google/protobuf/wrappers.proto";
+
+service UserService {
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
+  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse);
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc Auth (AuthRequest) returns (AuthResponse);
+  rpc GenerateToken (GenerateTokenRequest) returns (GenerateTokenResponse);
+  rpc TGLink (TGLinkRequest) returns (TGLinkResponse);
+  rpc TGLogin (TGLoginRequest) returns (TGLoginResponse);
+  rpc TGSignOut (TGSignOutRequest) returns (TGSignOutResponse);
+  rpc RestorePassword (RestorePasswordRequest) returns (RestorePasswordResponse);
+}
+
+message CreateUserRequest {
+  string login = 1;
+  string name = 2;
+  string password = 3;
+}
+
+message CreateUserResponse {
+  bool result = 1;
+  ErrorResponse error_status = 2;
+  UserModel user = 3;
+}
+
+message LoginRequest {
+  string login = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  bool result = 1;
+  ErrorResponse error_status = 2;
+  UserModel user = 3;
+}
+
+message AuthRequest {
+}
+
+message AuthResponse {
+  bool result = 1;
+  ErrorResponse error_status = 2;
+  UserModel user = 3;
+}
+
+message UpdateUserRequest {
+  string name = 1;
+  string password = 2;
+}
+
+message UpdateUserResponse {
+  bool result = 1;
+  ErrorResponse error_status = 2;
+  UserModel user = 3;
+}
+
+
+message GenerateTokenRequest {
+
+}
+
+message GenerateTokenResponse {
+  bool result = 1;
+  ErrorResponse error_status = 2;
+  string token = 3;
+}
+
+message TGLinkRequest {
+  int64 tg_id = 1;
+  string token = 2;
+}
+
+message TGLinkResponse {
+  bool result = 1;
+  ErrorResponse error_status = 2;
+  UserModel user = 3;
+}
+
+message TGLoginRequest {
+  int64 tg_id = 1;
+}
+
+message TGLoginResponse {
+  bool result = 1;
+  ErrorResponse error_status = 2;
+  UserModel user = 3;
+}
+
+message TGSignOutRequest {
+  int64 tg_id = 1;
+}
+
+message TGSignOutResponse {
+  bool result = 1;
+}
+
+message RestorePasswordRequest {
+  string login = 1;
+  string new_password = 2;
+}
+
+message RestorePasswordResponse {
+  bool result = 1;
+  ErrorResponse error_status = 2;
+  UserModel user = 3;
+}
+
+message UserModel {
+  string name = 1;
+  string token = 2;
+}
+
+enum ErrorResponse {
+  None = 0;
+  Unexpected = 1;
+  AlreadyExisted = 2;
+  Unauthenticated = 3;
+  IncorrectCredentials = 4;
+}

@@ -1,0 +1,32 @@
+version: "3"
+services:
+    auth-db:
+      image: postgres
+      restart: always
+      container_name: auth-db
+      environment:
+        POSTGRES_USER: "auth"
+        POSTGRES_DB: "auth"
+        POSTGRES_PASSWORD: "123456"
+      ports:
+          - "15460:5432"
+      networks:
+        - shared_network
+  
+    fake.detection.auth:
+      image: fake.detection.auth
+      build:
+        context: .
+        dockerfile: src/Fake.Detection.Auth/Dockerfile
+      depends_on: 
+        - auth-db
+      ports:
+        - "5146:5146"
+        - "7146:7146"
+      restart: always
+      networks:
+        - shared_network
+          
+networks:
+  shared_network:
+    external: true
